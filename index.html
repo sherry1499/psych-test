@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>心理测试 — 15题</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>简易心理测试（题库 200 题，每次随机抽取 5 题）</h1>
+
+    <form id="quiz">
+      <!-- 问题由 script.js 动态渲染到这里 -->
+      <div id="questions"></div>
+
+      <div class="actions">
+        <button type="submit" id="submitBtn" disabled>提交并查看结果</button>
+        <button type="button" id="resetBtn">重置</button>
+        <button type="button" id="reshuffleBtn">换一组题目</button>
+      </div>
+    </form>
+
+    <section id="result" class="hidden">
+      <h2>测试结果</h2>
+      <p id="scoreText"></p>
+      <p id="advice"></p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
