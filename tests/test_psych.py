@@ -52,14 +52,14 @@ class TestPsychQuiz:
         # 检查页面大标题
         h1 = self.driver.find_element(By.TAG_NAME, "h1")
         assert "简易心理测试" in h1.text
-        assert "10 题" in h1.text
+        assert "12 题" in h1.text
 
     def test_02_questions_displayed(self):
-        """测试2：页面显示 10 道题目"""
+        """测试2：页面显示 12 道题目"""
         self.driver.get(self.page_url)
         
         questions = self.driver.find_elements(By.CLASS_NAME, "question")
-        assert len(questions) == 10, f"期望 10 道题，实际 {len(questions)} 道"
+        assert len(questions) == 12, f"期望 12 道题，实际 {len(questions)} 道"
         
         # 每道题应有 4 个选项
         for i, q in enumerate(questions, 1):
@@ -78,7 +78,7 @@ class TestPsychQuiz:
         self.driver.get(self.page_url)
         
         # 给每道题选一个答案
-        for i in range(1, 11):
+        for i in range(1, 13):
             radio = self.driver.find_element(By.CSS_SELECTOR, f"input[name='q{i}'][value='2']")
             radio.click()
         
@@ -102,7 +102,7 @@ class TestPsychQuiz:
         self.driver.get(self.page_url)
         
         # 答所有题（选"不符合" = 0 分）
-        for i in range(1, 11):
+        for i in range(1, 13):
             radio = self.driver.find_element(By.CSS_SELECTOR, f"input[name='q{i}'][value='0']")
             radio.click()
         
@@ -117,7 +117,7 @@ class TestPsychQuiz:
         
         score_text = self.driver.find_element(By.ID, "scoreText").text
         assert "得分" in score_text
-        assert "0/30" in score_text  # 全选 0 分，总分 0/30
+        assert "0/36" in score_text  # 全选 0 分，总分 0/36
         assert "低" in score_text  # 低压力水平
 
     def test_07_high_score_result(self):
@@ -125,7 +125,7 @@ class TestPsychQuiz:
         self.driver.get(self.page_url)
         
         # 答所有题（选"非常符合" = 3 分）
-        for i in range(1, 11):
+        for i in range(1, 13):
             radio = self.driver.find_element(By.CSS_SELECTOR, f"input[name='q{i}'][value='3']")
             radio.click()
         
@@ -137,18 +137,18 @@ class TestPsychQuiz:
         )
         
         score_text = self.driver.find_element(By.ID, "scoreText").text
-        assert "30/30" in score_text
+        assert "36/36" in score_text
         assert "较高" in score_text
 
     def test_08_medium_score_result(self):
         """测试8：中等分数结果"""
         self.driver.get(self.page_url)
         
-        # 前 5 题选 3 分，后 5 题选 0 分 → 总分 15/30 = 50%
-        for i in range(1, 6):
+        # 前 6 题选 3 分，后 6 题选 0 分 → 总分 18/36 = 50%
+        for i in range(1, 7):
             radio = self.driver.find_element(By.CSS_SELECTOR, f"input[name='q{i}'][value='3']")
             radio.click()
-        for i in range(6, 11):
+        for i in range(7, 13):
             radio = self.driver.find_element(By.CSS_SELECTOR, f"input[name='q{i}'][value='0']")
             radio.click()
         
@@ -160,7 +160,7 @@ class TestPsychQuiz:
         )
         
         score_text = self.driver.find_element(By.ID, "scoreText").text
-        assert "15/30" in score_text
+        assert "18/36" in score_text
         assert "中等" in score_text
 
     def test_09_reset_button(self):
@@ -168,7 +168,7 @@ class TestPsychQuiz:
         self.driver.get(self.page_url)
         
         # 先答题并提交
-        for i in range(1, 11):
+        for i in range(1, 13):
             radio = self.driver.find_element(By.CSS_SELECTOR, f"input[name='q{i}'][value='2']")
             radio.click()
         

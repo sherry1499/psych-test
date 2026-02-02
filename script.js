@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const advice = document.getElementById('advice')
 
   const POOL_SIZE = 200
-  const SHOW_N = 10
+  const SHOW_N = 12
 
   // 生成题库（示例占位）。你可以把中文题目替换到这里的数组中。
   const questionPool = Array.from({length:POOL_SIZE}, (_,i)=>({
