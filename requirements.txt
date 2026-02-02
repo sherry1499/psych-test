@@ -1,0 +1,10 @@
+# 心理测试项目 - 自动化测试依赖
+
+# Selenium WebDriver
+selenium>=4.15.0
+
+# 测试框架
+pytest>=7.4.0
+
+# 可选：生成测试报告
+pytest-html>=4.1.0
