@@ -1,0 +1,51 @@
+# 网站拨测 - 定时检测网站是否正常
+name: 网站拨测
+
+on:
+  schedule:
+    # 每 6 小时执行一次（GitHub Actions 免费版有限制）
+    - cron: '0 */6 * * *'
+  # 也可以手动触发
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检测网站可用性
+        run: |
+          echo "开始拨测..."
+          
+          # 你的 GitHub Pages 网站地址
+          URL="https://sherry1499.github.io/psych-test/"
+          
+          # 发送请求，获取状态码和响应时间
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "$URL")
+          RESPONSE_TIME=$(curl -s -o /dev/null -w "%{time_total}" --max-time 30 "$URL")
+          
+          echo "网站地址: $URL"
+          echo "状态码: $HTTP_CODE"
+          echo "响应时间: ${RESPONSE_TIME}s"
+          
+          # 判断是否正常
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ 网站异常！状态码: $HTTP_CODE"
+            exit 1
+          fi
+          
+          echo "✅ 网站正常运行"
+
+      - name: 检测页面内容
+        run: |
+          URL="https://sherry1499.github.io/psych-test/"
+          
+          # 检查页面是否包含关键内容
+          CONTENT=$(curl -s "$URL")
+          
+          if echo "$CONTENT" | grep -q "心理测试"; then
+            echo "✅ 页面内容正常"
+          else
+            echo "❌ 页面内容异常，未找到关键字"
+            exit 1
+          fi
