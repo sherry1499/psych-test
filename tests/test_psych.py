@@ -21,10 +21,16 @@ class TestPsychQuiz:
     def setup(self):
         """测试前置：启动浏览器"""
         chrome_options = Options()
-        # 如果想看到浏览器界面，注释下面这行
-        # chrome_options.add_argument("--headless")
+        
+        # CI 环境（GitHub Actions）自动使用无头模式
+        # 本地运行时会显示浏览器窗口
+        if os.environ.get("CI") or os.environ.get("GITHUB_ACTIONS"):
+            chrome_options.add_argument("--headless")
+        
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--window-size=1920,1080")
         
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.implicitly_wait(10)

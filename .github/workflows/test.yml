@@ -1,0 +1,53 @@
+# GitHub Actions - 自动运行 Selenium 测试
+# 每次 push 或 PR 到 master 分支时自动触发
+
+name: 自动化测试
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  # 允许手动触发
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. 拉取代码
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      # 2. 设置 Python 环境
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. 安装 Chrome 浏览器
+      - name: 安装 Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      # 4. 安装 Python 依赖
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install selenium pytest pytest-html
+
+      # 5. 运行测试
+      - name: 运行 Selenium 测试
+        run: |
+          python -m pytest tests/test_psych.py -v --tb=short --html=report.html --self-contained-html
+
+      # 6. 上传测试报告（即使测试失败也上传）
+      - name: 上传测试报告
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-report
+          path: report.html
+          retention-days: 30

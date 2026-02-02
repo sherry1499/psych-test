@@ -8,6 +8,7 @@
 - tests/test_psych.py — Selenium 自动化测试
 - requirements.txt — Python 依赖
 - run_tests.py — 测试运行脚本
+- .github/workflows/test.yml — GitHub Actions 自动测试配置
 
 ## 本地预览
 
@@ -41,6 +42,15 @@ pytest tests/test_psych.py -v
 - 提交后结果显示（低/中/高三档）
 - 重置功能
 - 换题功能
+
+## GitHub Actions 自动测试
+
+本项目配置了 GitHub Actions，每次 push 代码会自动运行测试。
+
+- 查看测试状态：仓库页面 → **Actions** 标签
+- 测试报告：点击某次运行 → **Artifacts** → 下载 `test-report`
+
+[![自动化测试](https://github.com/sherry1499/psych-test/actions/workflows/test.yml/badge.svg)](https://github.com/sherry1499/psych-test/actions/workflows/test.yml)
 
 ## 说明
 
